@@ -29,7 +29,12 @@ export function Home() {
                 Explore All Tools
               </Button>
             </Link>
-            <Button size="lg" className="border-2 border-white/20 bg-transparent text-white hover:bg-white/10 font-semibold px-8 transition-all">
+            <Button 
+              size="lg" 
+              variant="outline"
+              className="border-2 border-white/20 bg-transparent text-white hover:bg-white/10 font-semibold px-8 transition-all"
+              onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               How it Works
             </Button>
           </div>
@@ -38,19 +43,21 @@ export function Home() {
 
       {/* Category Grid */}
       <section className="container mx-auto px-4 -mt-12">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {["Calculators", "Converters", "Text Tools", "Image Tools", "Development Tools"].map((cat) => (
-            <Link key={cat} to={`/category/${cat.toLowerCase().replace(/\s+/g, "-")}`} className="group">
-              <Card className="hover:shadow-xl transition-all duration-300 border-none shadow-md group-hover:-translate-y-1">
-                <CardHeader className="p-6 text-center">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+          {[
+            { name: "Calculators", icon: <Calculator className="w-6 h-6" /> },
+            { name: "Converters", icon: <Coins className="w-6 h-6" /> },
+            { name: "Text Tools", icon: <Type className="w-6 h-6" /> },
+            { name: "Image Tools", icon: <Image className="w-6 h-6" /> },
+            { name: "Development Tools", icon: <Code className="w-6 h-6" /> }
+          ].map((cat) => (
+            <Link key={cat.name} to={`/category/${cat.name.toLowerCase().replace(/\s+/g, "-")}`} className="group">
+              <Card className="hover:shadow-xl transition-all duration-300 border-none shadow-md group-hover:-translate-y-1 h-full">
+                <CardHeader className="p-4 sm:p-6 text-center">
                   <div className="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                    {cat === "Calculators" && <Calculator className="w-6 h-6" />}
-                    {cat === "Converters" && <Coins className="w-6 h-6" />}
-                    {cat === "Text Tools" && <Type className="w-6 h-6" />}
-                    {cat === "Image Tools" && <Image className="w-6 h-6" />}
-                    {cat === "Development Tools" && <Code className="w-6 h-6" />}
+                    {cat.icon}
                   </div>
-                  <CardTitle className="text-lg">{cat}</CardTitle>
+                  <CardTitle className="text-base sm:text-lg leading-tight">{cat.name}</CardTitle>
                 </CardHeader>
               </Card>
             </Link>
@@ -105,6 +112,29 @@ export function Home() {
               </Link>
             );
           })}
+        </div>
+      </section>
+
+      {/* How it Works Section */}
+      <section id="how-it-works" className="container mx-auto px-4 mt-24">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-slate-900 mb-4">How it Works</h2>
+          <p className="text-slate-500 max-w-2xl mx-auto">
+            Using our tools is simple, fast, and secure. We process everything in your browser so your data stays private.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-8">
+          {[
+            { step: "01", title: "Select a Tool", desc: "Browse our collection of 68+ utility tools and select the one you need." },
+            { step: "02", title: "Input Your Data", desc: "Enter your values or paste your text/code into the input fields." },
+            { step: "03", title: "Get Results", desc: "Results are generated instantly. Copy or download them as needed." }
+          ].map((item) => (
+            <div key={item.step} className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+              <div className="text-4xl font-black text-indigo-100 mb-4">{item.step}</div>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">{item.title}</h3>
+              <p className="text-slate-500">{item.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 

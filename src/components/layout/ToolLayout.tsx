@@ -31,7 +31,7 @@ export function ToolLayout({ tool, children }: ToolLayoutProps) {
         <BreadcrumbList>
           <BreadcrumbItem><BreadcrumbLink render={<Link to="/" />}>Home</BreadcrumbLink></BreadcrumbItem>
           <BreadcrumbSeparator />
-          <BreadcrumbItem><BreadcrumbLink render={<Link to={`/category/${tool.category}`} />}>{tool.category}</BreadcrumbLink></BreadcrumbItem>
+          <BreadcrumbItem><BreadcrumbLink render={<Link to={`/category/${tool.category.toLowerCase().replace(/\s+/g, "-")}`} />}>{tool.category}</BreadcrumbLink></BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem><BreadcrumbPage>{tool.title}</BreadcrumbPage></BreadcrumbItem>
         </BreadcrumbList>
