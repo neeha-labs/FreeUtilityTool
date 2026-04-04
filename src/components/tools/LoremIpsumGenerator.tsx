@@ -64,7 +64,10 @@ export default function LoremIpsumGenerator() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
         <div className="space-y-4">
           <Label className="text-slate-700 font-bold uppercase tracking-wider text-xs">Number of Paragraphs: {paragraphs}</Label>
-          <Slider value={[paragraphs]} min={1} max={20} step={1} onValueChange={(v) => setParagraphs(v[0])} />
+          <Slider value={[paragraphs]} min={1} max={20} step={1} onValueChange={(v) => {
+            const val = Array.isArray(v) ? v[0] : v;
+            if (val !== undefined) setParagraphs(val);
+          }} />
         </div>
         <Button onClick={generateText} className="h-12 gap-2 bg-indigo-600 hover:bg-indigo-700 rounded-2xl font-bold uppercase tracking-wider">
           <RefreshCw className="w-4 h-4" /> Regenerate

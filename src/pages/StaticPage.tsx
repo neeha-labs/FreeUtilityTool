@@ -63,7 +63,6 @@ export function StaticPage({ title }: { title: string }) {
             <div className="bg-slate-50 p-6 rounded-xl border border-slate-100 mt-8">
               <h3 className="text-xl font-bold mb-4">Get in Touch</h3>
               <p className="text-slate-600 mb-2"><strong>Email:</strong> support@freeutilitytool.in</p>
-              <p className="text-slate-600 mb-2"><strong>Twitter:</strong> @FreeUtilityTool</p>
               <p className="text-slate-600"><strong>Response Time:</strong> We typically respond within 24-48 hours.</p>
             </div>
             <h2 className="text-2xl font-bold mt-8 mb-4">Feature Requests</h2>

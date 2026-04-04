@@ -65,7 +65,10 @@ export default function PasswordGenerator() {
             min={4} 
             max={64} 
             step={1} 
-            onValueChange={(v) => setLength(v[0])} 
+            onValueChange={(v) => {
+              const val = Array.isArray(v) ? v[0] : v;
+              if (val !== undefined) setLength(val);
+            }} 
           />
         </div>
 

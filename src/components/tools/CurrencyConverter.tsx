@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ArrowRightLeft, RefreshCw, Download, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const CURRENCIES = ["USD", "EUR", "GBP", "INR", "JPY", "AUD", "CAD", "SGD", "AED", "CNY"];
+import { SUPPORTED_CURRENCIES } from "@/lib/currencies";
 
 export default function CurrencyConverter() {
   const [amount, setAmount] = useState(1);
@@ -98,7 +98,7 @@ Date: ${new Date().toLocaleString()}
           <Select value={from} onValueChange={setFrom}>
             <SelectTrigger className="h-11 rounded-xl"><SelectValue /></SelectTrigger>
             <SelectContent>
-              {CURRENCIES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+              {SUPPORTED_CURRENCIES.map(c => <SelectItem key={c.code} value={c.code}>{c.code} ({c.name})</SelectItem>)}
             </SelectContent>
           </Select>
         </div>
@@ -114,7 +114,7 @@ Date: ${new Date().toLocaleString()}
           <Select value={to} onValueChange={setTo}>
             <SelectTrigger className="h-11 rounded-xl"><SelectValue /></SelectTrigger>
             <SelectContent>
-              {CURRENCIES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+              {SUPPORTED_CURRENCIES.map(c => <SelectItem key={c.code} value={c.code}>{c.code} ({c.name})</SelectItem>)}
             </SelectContent>
           </Select>
         </div>

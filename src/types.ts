@@ -8,6 +8,8 @@ export interface Tool {
   relatedTools: string[];
   seoKeywords: string[];
   faqs?: { question: string; answer: string }[];
+  howToUse?: string[];
+  howToUseIntro?: string;
 }
 
 export interface SEOContent {

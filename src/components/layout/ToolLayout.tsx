@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Share2, Copy, Twitter, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Helmet } from "react-helmet-async";
 
 interface ToolLayoutProps {
   tool: typeof ALL_TOOLS[0];
@@ -25,8 +26,61 @@ export function ToolLayout({ tool, children }: ToolLayoutProps) {
     }
   };
 
+  // JSON-LD Structured Data for SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": tool.title,
+    "description": tool.shortDesc,
+    "applicationCategory": tool.category,
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": tool.howToUse?.join(", ") || "Online utility tool",
+    "mainEntity": {
+      "@type": "Question",
+      "name": `How to use ${tool.title}?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": tool.howToUse?.join(" ") || `Enter the required values in the input fields and get results instantly.`
+      }
+    }
+  };
+
+  // FAQ Structured Data
+  const faqStructuredData = tool.faqs ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": tool.faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  } : null;
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <Helmet>
+        <title>{`${tool.title} - Free Online Utility Tool`}</title>
+        <meta name="description" content={tool.shortDesc} />
+        <meta name="keywords" content={tool.seoKeywords.join(", ")} />
+        <link rel="canonical" href={window.location.href} />
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </script>
+        {faqStructuredData && (
+          <script type="application/ld+json">
+            {JSON.stringify(faqStructuredData)}
+          </script>
+        )}
+      </Helmet>
+
       <Breadcrumb className="mb-6">
         <BreadcrumbList>
           <BreadcrumbItem><BreadcrumbLink render={<Link to="/" />}>Home</BreadcrumbLink></BreadcrumbItem>
@@ -67,13 +121,18 @@ export function ToolLayout({ tool, children }: ToolLayoutProps) {
             <section className="mb-12">
               <h2 className="text-2xl font-bold text-slate-900 mb-6">How to use the {tool.title}?</h2>
               <p>
-                Our {tool.title} is designed to be simple, fast, and secure. 
-                Follow these easy steps to get your results instantly:
+                {tool.howToUseIntro || `Our ${tool.title} is designed to be simple, fast, and secure. Follow these easy steps to get your results instantly:`}
               </p>
               <ol>
-                <li>Enter the required values in the input fields above.</li>
-                <li>The results will be calculated or generated automatically as you type.</li>
-                <li>Use the available buttons (Copy/Download) to save or share your results.</li>
+                {tool.howToUse ? (
+                  tool.howToUse.map((step, i) => <li key={i}>{step}</li>)
+                ) : (
+                  <>
+                    <li>Enter the required values in the input fields above.</li>
+                    <li>The results will be calculated or generated automatically as you type.</li>
+                    <li>Use the available buttons (Copy/Download) to save or share your results.</li>
+                  </>
+                )}
               </ol>
             </section>
             

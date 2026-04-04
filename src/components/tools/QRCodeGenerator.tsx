@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import QRCode from "qrcode";
+import { toDataURL } from "qrcode";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -15,7 +15,7 @@ export default function QRCodeGenerator() {
       setQrUrl("");
       return;
     }
-    QRCode.toDataURL(text, { width: 400, margin: 2 }, (err, url) => {
+    toDataURL(text, { width: 400, margin: 2 }, (err, url) => {
       if (err) console.error(err);
       setQrUrl(url);
     });

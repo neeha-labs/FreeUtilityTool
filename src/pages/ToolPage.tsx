@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { ALL_TOOLS } from "@/lib/tools";
 import { ToolLayout } from "@/components/layout/ToolLayout";
 import React, { Suspense, lazy } from "react";
+import { Helmet } from "react-helmet-async";
 
 // Lazy load tools
 const EMICalculator = lazy(() => import("@/components/tools/EMICalculator"));
@@ -163,10 +164,25 @@ export function ToolPage() {
   const Component = TOOL_COMPONENTS[tool.slug] || PlaceholderTool;
 
   return (
-    <ToolLayout tool={tool}>
-      <Suspense fallback={<div className="h-64 flex items-center justify-center text-slate-400">Loading tool...</div>}>
-        <Component title={tool.title} />
-      </Suspense>
-    </ToolLayout>
+    <>
+      <Helmet>
+        <title>{tool.title} - FreeUtilityTool.in</title>
+        <meta name="description" content={tool.shortDesc} />
+        {tool.seoKeywords && (
+          <meta name="keywords" content={tool.seoKeywords.join(", ")} />
+        )}
+        <link rel="canonical" href={`https://freeutilitytool.in/tools/${tool.slug}`} />
+        <meta property="og:title" content={`${tool.title} - FreeUtilityTool.in`} />
+        <meta property="og:description" content={tool.shortDesc} />
+        <meta property="og:url" content={`https://freeutilitytool.in/tools/${tool.slug}`} />
+        <meta name="twitter:title" content={`${tool.title} - FreeUtilityTool.in`} />
+        <meta name="twitter:description" content={tool.shortDesc} />
+      </Helmet>
+      <ToolLayout tool={tool}>
+        <Suspense fallback={<div className="h-64 flex items-center justify-center text-slate-400">Loading tool...</div>}>
+          <Component title={tool.title} />
+        </Suspense>
+      </ToolLayout>
+    </>
   );
 }

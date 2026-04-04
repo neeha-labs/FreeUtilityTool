@@ -2,6 +2,7 @@ import { ALL_TOOLS } from "@/lib/tools";
 import { Link } from "react-router-dom";
 import { Card, CardDescription, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Calculator, Coins, Ruler, Percent, Code, Type, Image, FileCode } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 const ICON_MAP: Record<string, any> = {
   Calculator, Coins, Ruler, Percent, Code, Type, Image, FileCode
@@ -12,6 +13,14 @@ export function ToolsPage() {
 
   return (
     <div className="container mx-auto px-4 py-20">
+      <Helmet>
+        <title>All Utility Tools - FreeUtilityTool.in</title>
+        <meta name="description" content="Browse our complete collection of 68 free online tools including calculators, converters, text tools, image tools, and development utilities." />
+        <link rel="canonical" href="https://freeutilitytool.in/tools" />
+        <meta property="og:title" content="All Utility Tools - FreeUtilityTool.in" />
+        <meta property="og:description" content="Browse our complete collection of 68 free online tools." />
+        <meta property="og:url" content="https://freeutilitytool.in/tools" />
+      </Helmet>
       <div className="max-w-4xl mx-auto text-center mb-16">
         <h1 className="text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">All Utility Tools</h1>
         <p className="text-lg text-slate-500">Browse our complete collection of 68 free online tools designed to make your life easier.</p>

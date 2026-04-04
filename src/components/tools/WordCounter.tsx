@@ -11,7 +11,7 @@ export default function WordCounter() {
     words: text.trim() ? text.trim().split(/\s+/).length : 0,
     chars: text.length,
     charsNoSpaces: text.replace(/\s/g, "").length,
-    sentences: text.split(/[.!?]+/).filter(Boolean).length,
+    sentences: text.split(/[.!?]+/).filter(s => s.trim().length > 0).length,
     readingTime: Math.ceil((text.trim() ? text.trim().split(/\s+/).length : 0) / 200),
   };
 

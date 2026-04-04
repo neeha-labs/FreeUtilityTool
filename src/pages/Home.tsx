@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calculator, Coins, Ruler, Percent, Code, Type, Image, FileCode, ArrowRight, Star } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 const ICON_MAP: Record<string, any> = {
   Calculator, Coins, Ruler, Percent, Code, Type, Image, FileCode
@@ -13,6 +14,17 @@ export function Home() {
 
   return (
     <div className="pb-20">
+      <Helmet>
+        <title>FreeUtilityTool.in - 50+ Free Online Utility Tools</title>
+        <meta name="description" content="Fast, secure, and free online tools for calculators, converters, image compression, and more. No login required. Privacy-first client-side tools." />
+        <meta name="keywords" content="free online tools, utility tools, calculators, converters, image compressor, json formatter, word counter, emi calculator india" />
+        <link rel="canonical" href="https://freeutilitytool.in" />
+        <meta property="og:title" content="FreeUtilityTool.in - 50+ Free Online Utility Tools" />
+        <meta property="og:description" content="Fast, secure, and free online tools for calculators, converters, image compression, and more." />
+        <meta property="og:url" content="https://freeutilitytool.in" />
+        <meta name="twitter:title" content="FreeUtilityTool.in - 50+ Free Online Utility Tools" />
+        <meta name="twitter:description" content="Fast, secure, and free online tools for calculators, converters, image compression, and more." />
+      </Helmet>
       {/* Hero Section */}
       <section className="bg-indigo-600 text-white py-20 px-4">
         <div className="container mx-auto text-center max-w-4xl">
