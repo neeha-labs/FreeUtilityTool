@@ -115,6 +115,12 @@ export default function EMICalculator() {
     }
   };
 
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const emiData = useMemo(() => {
     const p = amount;
     const r = rate / 12 / 100;
@@ -283,29 +289,31 @@ Total Payment: ${formatCurrency(emiData.totalPayment, currency)}
         </div>
 
         <div className="w-full h-[280px] min-h-[280px]">
-          <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
-            <PieChart>
-              <Pie
-                data={emiData.chartData}
-                cx="50%"
-                cy="50%"
-                innerRadius={70}
-                outerRadius={90}
-                paddingAngle={8}
-                dataKey="value"
-                stroke="none"
-              >
-                {emiData.chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip 
-                contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                formatter={(value: number) => formatCurrency(value, currency)} 
-              />
-              <Legend verticalAlign="bottom" height={36} iconType="circle" />
-            </PieChart>
-          </ResponsiveContainer>
+          {isMounted && (
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
+              <PieChart>
+                <Pie
+                  data={emiData.chartData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={70}
+                  outerRadius={90}
+                  paddingAngle={8}
+                  dataKey="value"
+                  stroke="none"
+                >
+                  {emiData.chartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                  formatter={(value: number) => formatCurrency(value, currency)} 
+                />
+                <Legend verticalAlign="bottom" height={36} iconType="circle" />
+              </PieChart>
+            </ResponsiveContainer>
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-4 w-full">

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Copy, Download, FileSpreadsheet } from "lucide-react";
 import { toast } from "sonner";
 import Papa from "papaparse";
+import JSON5 from "json5";
 
 const JSONToCSV = () => {
   const [json, setJson] = useState("");
@@ -18,7 +19,7 @@ const JSONToCSV = () => {
     }
 
     try {
-      const parsed = JSON.parse(json);
+      const parsed = JSON5.parse(json);
       const data = Array.isArray(parsed) ? parsed : [parsed];
       const result = Papa.unparse(data);
       setCsv(result);

@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Copy, Download, RefreshCw, ArrowLeftRight } from "lucide-react";
 import { toast } from "sonner";
 import Papa from "papaparse";
+import JSON5 from "json5";
 
 export default function CSVJSONConverter() {
   const [csv, setCsv] = useState("");
@@ -24,8 +25,10 @@ export default function CSVJSONConverter() {
   const handleJsonToCSV = () => {
     if (!json) return;
     try {
-      const data = JSON.parse(json);
-      const result = Papa.unparse(data);
+      const data = JSON5.parse(json);
+      // Ensure data is an array for Papa.unparse
+      const arrayData = Array.isArray(data) ? data : [data];
+      const result = Papa.unparse(arrayData);
       setCsv(result);
       toast.success("Converted to CSV!");
     } catch (e) {

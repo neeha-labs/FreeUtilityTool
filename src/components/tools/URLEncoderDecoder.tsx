@@ -53,9 +53,10 @@ export default function URLEncoderDecoder() {
         <Textarea 
           value={text} 
           onChange={(e) => setText(e.target.value)} 
-          placeholder="Paste URL or text here..." 
+          placeholder="Paste URL or text here (e.g., https://google.com)..." 
           className="min-h-[300px] text-lg p-8 rounded-3xl border-slate-200 focus:ring-indigo-500 font-mono"
         />
+        <p className="text-[10px] text-slate-400 italic">* Note: For best results, ensure your URL starts with https://</p>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -64,9 +65,6 @@ export default function URLEncoderDecoder() {
       </div>
 
       <div className="flex gap-4 pt-4 border-t border-slate-100">
-        <Button onClick={downloadResults} className="flex-1 gap-2 bg-indigo-600 hover:bg-indigo-700 h-12 rounded-2xl">
-          <Download className="w-4 h-4" /> Download Result
-        </Button>
         <Button variant="outline" onClick={copyResults} className="flex-1 gap-2 h-12 rounded-2xl border-slate-200">
           {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
           {copied ? "Copied" : "Copy to Clipboard"}

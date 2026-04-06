@@ -45,10 +45,10 @@ export default function PasswordGenerator() {
   };
 
   const getPasswordStrength = () => {
-    if (length < 8) return { label: "Weak", color: "text-red-500", bg: "bg-red-500" };
-    if (length < 12) return { label: "Medium", color: "text-orange-500", bg: "bg-orange-500" };
-    if (length < 16) return { label: "Strong", color: "text-green-500", bg: "bg-green-500" };
-    return { label: "Very Strong", color: "text-indigo-500", bg: "bg-indigo-500" };
+    if (length < 8) return { label: "Weak", color: "text-red-500", bg: "bg-red-500", blocks: 1 };
+    if (length < 12) return { label: "Medium", color: "text-orange-500", bg: "bg-orange-500", blocks: 2 };
+    if (length < 16) return { label: "Strong", color: "text-green-500", bg: "bg-green-500", blocks: 3 };
+    return { label: "Very Strong", color: "text-indigo-500", bg: "bg-indigo-500", blocks: 4 };
   };
 
   const strength = getPasswordStrength();
@@ -123,7 +123,7 @@ export default function PasswordGenerator() {
               {Array.from({ length: 4 }).map((_, i) => (
                 <div 
                   key={i} 
-                  className={`h-1.5 w-8 rounded-full ${i < (length / 8) ? strength.bg : 'bg-slate-200'}`}
+                  className={`h-1.5 w-8 rounded-full ${i < strength.blocks ? strength.bg : 'bg-slate-200'}`}
                 />
               ))}
             </div>

@@ -181,7 +181,7 @@ export function Home() {
                 <div className="bg-green-100 text-green-600 p-1 rounded-full h-fit"><Star className="w-4 h-4" /></div>
                 <div>
                   <h4 className="font-bold">Blazing Fast</h4>
-                  <p className="text-sm text-slate-500">Built with Next.js 15 for sub-second load times and smooth UX.</p>
+                  <p className="text-sm text-slate-500">Built with React & Vite for sub-second load times and smooth UX.</p>
                 </div>
               </div>
               <div className="flex gap-3">

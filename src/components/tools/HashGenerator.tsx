@@ -16,16 +16,23 @@ export default function HashGenerator() {
   });
 
   const generateHashes = (val: string) => {
-    if (!val) {
+    if (val === undefined || val === null || val === "") {
       setHashes({ md5: "", sha1: "", sha256: "", sha512: "" });
       return;
     }
-    setHashes({
-      md5: CryptoJS.MD5(val).toString(),
-      sha1: CryptoJS.SHA1(val).toString(),
-      sha256: CryptoJS.SHA256(val).toString(),
-      sha512: CryptoJS.SHA512(val).toString(),
-    });
+    // DO NOT trim the value. Cryptographic hashes must include all characters including spaces and newlines.
+    try {
+      // Use Utf8.parse to ensure consistent encoding across all algorithms
+      const words = CryptoJS.enc.Utf8.parse(val);
+      setHashes({
+        md5: CryptoJS.MD5(words).toString(CryptoJS.enc.Hex),
+        sha1: CryptoJS.SHA1(words).toString(CryptoJS.enc.Hex),
+        sha256: CryptoJS.SHA256(words).toString(CryptoJS.enc.Hex),
+        sha512: CryptoJS.SHA512(words).toString(CryptoJS.enc.Hex),
+      });
+    } catch (e) {
+      console.error("Hash generation error", e);
+    }
   };
 
   const handleTextChange = (val: string) => {

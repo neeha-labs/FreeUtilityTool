@@ -2,28 +2,55 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import { Copy, Download, RefreshCw } from "lucide-react";
+import { Copy, Download, RefreshCw, Binary, Type } from "lucide-react";
 import { toast } from "sonner";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function BinaryConverter() {
   const [text, setText] = useState("");
   const [binary, setBinary] = useState("");
+  const [mode, setMode] = useState<"text" | "number">("text");
 
   const textToBinary = (str: string) => {
-    return str
-      .split("")
-      .map((char) => char.charCodeAt(0).toString(2).padStart(8, "0"))
-      .join(" ");
+    if (!str) return "";
+    try {
+      if (mode === "number") {
+        // Remove non-numeric characters for number mode
+        const cleanNum = str.replace(/[^0-9]/g, "");
+        if (!cleanNum) return "";
+        return BigInt(cleanNum).toString(2);
+      }
+      const encoder = new TextEncoder();
+      const bytes = encoder.encode(str);
+      return Array.from(bytes)
+        .map((byte) => byte.toString(2).padStart(8, "0"))
+        .join(" ");
+    } catch (e) {
+      return "Error encoding";
+    }
   };
 
   const binaryToText = (bin: string) => {
+    if (!bin) return "";
     try {
-      return bin
-        .split(" ")
-        .map((b) => String.fromCharCode(parseInt(b, 2)))
-        .join("");
+      const cleanBin = bin.replace(/[^01]/g, "");
+      if (!cleanBin) return "";
+
+      if (mode === "number") {
+        return BigInt("0b" + cleanBin).toString(10);
+      }
+
+      if (cleanBin.length % 8 !== 0) return "Invalid Binary (must be multiple of 8 bits)";
+      
+      const bytes = [];
+      for (let i = 0; i < cleanBin.length; i += 8) {
+        bytes.push(parseInt(cleanBin.substr(i, 8), 2));
+      }
+      
+      const decoder = new TextDecoder();
+      return decoder.decode(new Uint8Array(bytes));
     } catch (e) {
-      return "Invalid Binary";
+      return "Invalid Binary format";
     }
   };
 
@@ -35,6 +62,16 @@ export default function BinaryConverter() {
   const handleBinaryChange = (val: string) => {
     setBinary(val);
     setText(binaryToText(val));
+  };
+
+  const handleModeChange = (newMode: "text" | "number") => {
+    setMode(newMode);
+    // Recalculate based on current input
+    if (text) {
+      setBinary(textToBinary(text));
+    } else if (binary) {
+      setText(binaryToText(binary));
+    }
   };
 
   const copyToClipboard = (content: string) => {
@@ -60,11 +97,26 @@ export default function BinaryConverter() {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-center">
+        <Tabs value={mode} onValueChange={(v) => handleModeChange(v as "text" | "number")} className="w-[400px]">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="text" className="gap-2">
+              <Type className="h-4 w-4" /> Text Mode
+            </TabsTrigger>
+            <TabsTrigger value="number" className="gap-2">
+              <Binary className="h-4 w-4" /> Number Mode
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-4">
-          <label className="text-sm font-medium">Text Input</label>
+          <label className="text-sm font-medium">
+            {mode === "text" ? "Text Input" : "Decimal Number Input"}
+          </label>
           <Textarea
-            placeholder="Enter text here..."
+            placeholder={mode === "text" ? "Enter text here..." : "Enter decimal number..."}
             className="h-48 resize-none"
             value={text}
             onChange={(e) => handleTextChange(e.target.value)}
@@ -132,8 +184,12 @@ export default function BinaryConverter() {
         <CardContent className="pt-6">
           <h3 className="font-semibold mb-2">How it works</h3>
           <p className="text-sm text-slate-500 leading-relaxed">
-            This tool converts each character of your text into its 8-bit binary representation using ASCII/Unicode values. 
-            You can also paste binary code (separated by spaces) into the binary field to decode it back into plain text.
+            <strong>Text Mode:</strong> Converts each character of your text into its 8-bit binary representation using UTF-8 encoding. 
+            Perfect for encoding messages or strings.
+          </p>
+          <p className="text-sm text-slate-500 leading-relaxed mt-2">
+            <strong>Number Mode:</strong> Converts a decimal number directly into its binary equivalent. 
+            Useful for mathematical calculations and understanding base-2 numbering.
           </p>
         </CardContent>
       </Card>

@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Copy, Download, RefreshCw, ArrowLeftRight } from "lucide-react";
 import { toast } from "sonner";
 import yaml from "js-yaml";
+import JSON5 from "json5";
 
 export default function JSONYAMLConverter() {
   const [json, setJson] = useState("");
@@ -13,7 +14,7 @@ export default function JSONYAMLConverter() {
   const handleJsonToYaml = () => {
     if (!json) return;
     try {
-      const data = JSON.parse(json);
+      const data = JSON5.parse(json);
       const result = yaml.dump(data);
       setYamlStr(result);
       toast.success("Converted to YAML!");

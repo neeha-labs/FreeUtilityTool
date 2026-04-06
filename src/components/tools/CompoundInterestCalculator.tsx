@@ -44,6 +44,12 @@ const CompoundInterestCalculator = () => {
     }
   };
 
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const [totalBalance, setTotalBalance] = useState(0);
   const [totalContributions, setTotalContributions] = useState(0);
   const [totalInterest, setTotalInterest] = useState(0);
@@ -319,17 +325,19 @@ Total Interest: ${formatCurrency(totalInterest, currency)}`;
             </div>
 
             <div className="h-[250px] w-full min-h-[250px]">
-              <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
-                <LineChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="year" label={{ value: 'Years', position: 'insideBottomRight', offset: -5 }} />
-                  <YAxis tickFormatter={(value) => `${selectedCurrency.symbol}${value / 1000}k`} />
-                  <Tooltip formatter={(value: number) => formatCurrency(value, currency)} />
-                  <Legend />
-                  <Line type="monotone" dataKey="balance" stroke="#0088FE" name="Total Balance" dot={false} />
-                  <Line type="monotone" dataKey="contributions" stroke="#00C49F" name="Contributions" dot={false} />
-                </LineChart>
-              </ResponsiveContainer>
+              {isMounted && (
+                <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
+                  <LineChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="year" label={{ value: 'Years', position: 'insideBottomRight', offset: -5 }} />
+                    <YAxis tickFormatter={(value) => `${selectedCurrency.symbol}${value / 1000}k`} />
+                    <Tooltip formatter={(value: number) => formatCurrency(value, currency)} />
+                    <Legend />
+                    <Line type="monotone" dataKey="balance" stroke="#0088FE" name="Total Balance" dot={false} />
+                    <Line type="monotone" dataKey="contributions" stroke="#00C49F" name="Contributions" dot={false} />
+                  </LineChart>
+                </ResponsiveContainer>
+              )}
             </div>
 
             <div className="flex gap-2">

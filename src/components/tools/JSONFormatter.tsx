@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Copy, Check, Trash2, FileJson } from "lucide-react";
+import JSON5 from "json5";
 
 export default function JSONFormatter() {
   const [input, setInput] = useState("");
@@ -11,7 +12,7 @@ export default function JSONFormatter() {
   const formatJSON = (indent = 2) => {
     try {
       setError("");
-      const parsed = JSON.parse(input);
+      const parsed = JSON5.parse(input);
       setOutput(JSON.stringify(parsed, null, indent));
     } catch (e: any) {
       setError("Invalid JSON: " + e.message);
@@ -22,7 +23,7 @@ export default function JSONFormatter() {
   const minifyJSON = () => {
     try {
       setError("");
-      const parsed = JSON.parse(input);
+      const parsed = JSON5.parse(input);
       setOutput(JSON.stringify(parsed));
     } catch (e: any) {
       setError("Invalid JSON: " + e.message);
