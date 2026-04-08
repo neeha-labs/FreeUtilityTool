@@ -6,6 +6,8 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Share2, Copy, Twitter, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
+import { SeoContentBlock } from "@/components/seo/SeoContentBlock";
+import { getExtendedSeo } from "@/lib/seo-utils";
 
 interface ToolLayoutProps {
   tool: typeof ALL_TOOLS[0];
@@ -14,6 +16,7 @@ interface ToolLayoutProps {
 
 export function ToolLayout({ tool, children }: ToolLayoutProps) {
   const relatedTools = ALL_TOOLS.filter(t => tool.relatedTools.includes(t.slug));
+  const seo = getExtendedSeo(tool);
 
   const handleShare = (platform: string) => {
     const url = window.location.href;
@@ -30,8 +33,8 @@ export function ToolLayout({ tool, children }: ToolLayoutProps) {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": tool.title,
-    "description": tool.shortDesc,
+    "name": seo.title,
+    "description": seo.intro,
     "applicationCategory": tool.category,
     "operatingSystem": "All",
     "offers": {
@@ -50,11 +53,11 @@ export function ToolLayout({ tool, children }: ToolLayoutProps) {
     }
   };
 
-  // FAQ Structured Data
-  const faqStructuredData = tool.faqs ? {
+  // FAQ Structured Data (Combining existing + extended)
+  const faqStructuredData = seo.faqs.length > 0 ? {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": tool.faqs.map(faq => ({
+    "mainEntity": seo.faqs.map(faq => ({
       "@type": "Question",
       "name": faq.question,
       "acceptedAnswer": {
@@ -67,10 +70,15 @@ export function ToolLayout({ tool, children }: ToolLayoutProps) {
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       <Helmet>
-        <title>{`${tool.title} - Free Online Utility Tool`}</title>
-        <meta name="description" content={tool.shortDesc} />
+        <title>{`${seo.title} - FreeUtilityTool.in`}</title>
+        <meta name="description" content={seo.metaDescription} />
         <meta name="keywords" content={tool.seoKeywords.join(", ")} />
         <link rel="canonical" href={window.location.href} />
+        <meta property="og:title" content={`${seo.title} - FreeUtilityTool.in`} />
+        <meta property="og:description" content={seo.metaDescription} />
+        <meta property="og:url" content={window.location.href} />
+        <meta name="twitter:title" content={`${seo.title} - FreeUtilityTool.in`} />
+        <meta name="twitter:description" content={seo.metaDescription} />
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>
@@ -116,59 +124,16 @@ export function ToolLayout({ tool, children }: ToolLayoutProps) {
             </CardContent>
           </Card>
 
-          {/* SEO Content Section */}
-          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-slate-100 prose prose-slate max-w-none">
-            <section className="mb-12">
-              <h2 className="text-2xl font-bold text-slate-900 mb-6">How to use the {tool.title}?</h2>
-              <p>
-                {tool.howToUseIntro || `Our ${tool.title} is designed to be simple, fast, and secure. Follow these easy steps to get your results instantly:`}
-              </p>
-              <ol>
-                {tool.howToUse ? (
-                  tool.howToUse.map((step, i) => <li key={i}>{step}</li>)
-                ) : (
-                  <>
-                    <li>Enter the required values in the input fields above.</li>
-                    <li>The results will be calculated or generated automatically as you type.</li>
-                    <li>Use the available buttons (Copy/Download) to save or share your results.</li>
-                  </>
-                )}
-              </ol>
-            </section>
-            
-            <section className="mb-12">
-              <h3 className="text-xl font-bold text-slate-900 mb-6">Why our {tool.title} is better?</h3>
-              <ul>
-                <li><strong>Privacy:</strong> All processing happens in your browser. No data is sent to our servers.</li>
-                <li><strong>Speed:</strong> Instant results with zero latency.</li>
-                <li><strong>Accuracy:</strong> Built with precision algorithms and real-time data sources.</li>
-              </ul>
-            </section>
-
-            <section className="mt-16 pt-12 border-t border-slate-100">
-              <h3 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3">
-                <span className="w-8 h-8 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center text-sm">?</span>
-                Frequently Asked Questions (FAQs)
-              </h3>
-              <div className="space-y-6 not-prose">
-                {tool.faqs ? (
-                  tool.faqs.map((faq, i) => (
-                    <div key={i} className="bg-slate-50 rounded-xl p-6 border border-slate-100 transition-all hover:shadow-md">
-                      <h4 className="font-bold text-slate-900 mb-3 text-lg">{faq.question}</h4>
-                      <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
-                    </div>
-                  ))
-                ) : (
-                  tool.seoKeywords.slice(0, 3).map((kw, i) => (
-                    <div key={i} className="bg-slate-50 rounded-xl p-6 border border-slate-100 transition-all hover:shadow-md">
-                      <h4 className="font-bold text-slate-900 mb-3 text-lg">Is this {kw} free to use?</h4>
-                      <p className="text-slate-600 leading-relaxed">Yes, our {tool.title} is 100% free to use for everyone. No registration or payment is required.</p>
-                    </div>
-                  ))
-                )}
-              </div>
-            </section>
-          </div>
+          {/* Extended SEO Content Block */}
+          <SeoContentBlock
+            title={seo.title}
+            intro={seo.intro}
+            useCases={seo.useCases}
+            longTailSections={seo.longTailSections}
+            benefits={seo.benefits}
+            faqs={seo.faqs}
+            relatedTools={relatedTools.map(t => ({ title: t.title, slug: t.slug }))}
+          />
         </div>
 
         {/* Sidebar */}
@@ -204,3 +169,5 @@ export function ToolLayout({ tool, children }: ToolLayoutProps) {
     </div>
   );
 }
+
+

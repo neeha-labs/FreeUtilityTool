@@ -51,6 +51,9 @@ const MarkdownToHTML = lazy(() => import("@/components/tools/MarkdownToHTML"));
 const HTMLToMarkdown = lazy(() => import("@/components/tools/HTMLToMarkdown"));
 const JSONYAMLConverter = lazy(() => import("@/components/tools/JSONYAMLConverter"));
 const ImageBase64Converter = lazy(() => import("@/components/tools/ImageBase64Converter"));
+const ImageFormatConverter = lazy(() => import("@/components/tools/ImageFormatConverter"));
+const ImageResizer = lazy(() => import("@/components/tools/ImageResizer"));
+const ImageCrop = lazy(() => import("@/components/tools/ImageCrop"));
 const TextHexConverter = lazy(() => import("@/components/tools/TextHexConverter"));
 const TextOctalConverter = lazy(() => import("@/components/tools/TextOctalConverter"));
 const CaesarCipher = lazy(() => import("@/components/tools/CaesarCipher"));
@@ -146,6 +149,12 @@ const TOOL_COMPONENTS: Record<string, React.FC<any>> = {
   "decimal-to-octal": DecimalToOctal,
   "octal-to-decimal": OctalToDecimal,
   "json-to-csv": JSONToCSV,
+  "jpg-to-png-converter": (props) => <ImageFormatConverter {...props} title="JPG to PNG Converter" defaultToFormat="png" />,
+  "png-to-jpg-converter": (props) => <ImageFormatConverter {...props} title="PNG to JPG Converter" defaultToFormat="jpeg" />,
+  "image-resizer": ImageResizer,
+  "compress-image-to-50kb": (props) => <ImageCompressor {...props} title="Compress Image to 50KB" targetSizeKB={50} />,
+  "compress-image-to-100kb": (props) => <ImageCompressor {...props} title="Compress Image to 100KB" targetSizeKB={100} />,
+  "image-crop": ImageCrop,
 };
 
 export function ToolPage() {
@@ -164,25 +173,10 @@ export function ToolPage() {
   const Component = TOOL_COMPONENTS[tool.slug] || PlaceholderTool;
 
   return (
-    <>
-      <Helmet>
-        <title>{tool.title} - FreeUtilityTool.in</title>
-        <meta name="description" content={tool.shortDesc} />
-        {tool.seoKeywords && (
-          <meta name="keywords" content={tool.seoKeywords.join(", ")} />
-        )}
-        <link rel="canonical" href={`https://freeutilitytool.in/tools/${tool.slug}`} />
-        <meta property="og:title" content={`${tool.title} - FreeUtilityTool.in`} />
-        <meta property="og:description" content={tool.shortDesc} />
-        <meta property="og:url" content={`https://freeutilitytool.in/tools/${tool.slug}`} />
-        <meta name="twitter:title" content={`${tool.title} - FreeUtilityTool.in`} />
-        <meta name="twitter:description" content={tool.shortDesc} />
-      </Helmet>
-      <ToolLayout tool={tool}>
-        <Suspense fallback={<div className="h-64 flex items-center justify-center text-slate-400">Loading tool...</div>}>
-          <Component title={tool.title} />
-        </Suspense>
-      </ToolLayout>
-    </>
+    <ToolLayout tool={tool}>
+      <Suspense fallback={<div className="h-64 flex items-center justify-center text-slate-400">Loading tool...</div>}>
+        <Component title={tool.title} />
+      </Suspense>
+    </ToolLayout>
   );
 }

@@ -1,11 +1,11 @@
 import { ALL_TOOLS } from "@/lib/tools";
 import { Link } from "react-router-dom";
 import { Card, CardDescription, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Calculator, Coins, Ruler, Percent, Code, Type, Image, FileCode } from "lucide-react";
+import { Calculator, Coins, Ruler, Percent, Code, Type, Image, FileCode, Maximize, Minimize, Crop } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 
 const ICON_MAP: Record<string, any> = {
-  Calculator, Coins, Ruler, Percent, Code, Type, Image, FileCode
+  Calculator, Coins, Ruler, Percent, Code, Type, Image, FileCode, Maximize, Minimize, Crop
 };
 
 export function ToolsPage() {

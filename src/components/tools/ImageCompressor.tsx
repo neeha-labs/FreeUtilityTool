@@ -1,19 +1,35 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { Download, Upload, Image as ImageIcon, FileWarning } from "lucide-react";
+import { Download, Upload, Image as ImageIcon, FileWarning, RefreshCw } from "lucide-react";
+import imageCompression from 'browser-image-compression';
 
-export default function ImageCompressor() {
+interface ImageCompressorProps {
+  title?: string;
+  targetSizeKB?: number;
+}
+
+export default function ImageCompressor({ title, targetSizeKB }: ImageCompressorProps) {
   const [image, setImage] = useState<string | null>(null);
   const [originalFile, setOriginalFile] = useState<File | null>(null);
   const [compressedImage, setCompressedImage] = useState<string | null>(null);
+  const [compressedFile, setCompressedFile] = useState<File | null>(null);
   const [quality, setQuality] = useState(0.8);
+  const [targetSize, setTargetSize] = useState<number>(targetSizeKB || 500); // default 500KB if not specified
+  const [useTargetSize, setUseTargetSize] = useState<boolean>(!!targetSizeKB);
   const [compressing, setCompressing] = useState(false);
   const [stats, setStats] = useState({ originalSize: 0, compressedSize: 0 });
   
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (targetSizeKB) {
+      setTargetSize(targetSizeKB);
+      setUseTargetSize(true);
+    }
+  }, [targetSizeKB]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -24,39 +40,42 @@ export default function ImageCompressor() {
       reader.onload = (event) => {
         setImage(event.target?.result as string);
         setCompressedImage(null);
+        setCompressedFile(null);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const compressImage = () => {
-    if (!image) return;
+  const compressImage = async () => {
+    if (!originalFile) return;
     setCompressing(true);
     
-    const img = new Image();
-    img.src = image;
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
+    try {
+      const options = {
+        maxSizeMB: useTargetSize ? targetSize / 1024 : undefined,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+        initialQuality: useTargetSize ? undefined : quality,
+      };
+
+      const compressedBlob = await imageCompression(originalFile, options);
+      setCompressedFile(compressedBlob as File);
       
-      canvas.width = img.width;
-      canvas.height = img.height;
-      
-      ctx?.drawImage(img, 0, 0);
-      
-      const compressedDataUrl = canvas.toDataURL(originalFile?.type || "image/jpeg", quality);
-      setCompressedImage(compressedDataUrl);
-      
-      // Calculate size
-      const head = compressedDataUrl.split(",")[0];
-      const size = Math.round((compressedDataUrl.length - head.length) * 3 / 4);
-      setStats(prev => ({ ...prev, compressedSize: size }));
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setCompressedImage(event.target?.result as string);
+        setStats(prev => ({ ...prev, compressedSize: compressedBlob.size }));
+        setCompressing(false);
+      };
+      reader.readAsDataURL(compressedBlob);
+    } catch (error) {
+      console.error("Compression error:", error);
       setCompressing(false);
-    };
+    }
   };
 
   const downloadImage = () => {
-    if (!compressedImage) return;
+    if (!compressedImage || !compressedFile) return;
     const link = document.createElement("a");
     link.href = compressedImage;
     link.download = `compressed_${originalFile?.name || "image.jpg"}`;
@@ -96,14 +115,51 @@ export default function ImageCompressor() {
             </div>
 
             <div className="space-y-4 p-6 bg-slate-50 rounded-2xl border border-slate-100">
-              <div className="flex justify-between items-center">
-                <Label className="font-bold">Compression Quality</Label>
-                <span className="text-indigo-600 font-bold">{Math.round(quality * 100)}%</span>
+              <div className="flex items-center space-x-4 mb-4">
+                <label className="flex items-center space-x-2">
+                  <input 
+                    type="radio" 
+                    checked={!useTargetSize} 
+                    onChange={() => setUseTargetSize(false)}
+                    className="text-indigo-600"
+                  />
+                  <span>By Quality</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input 
+                    type="radio" 
+                    checked={useTargetSize} 
+                    onChange={() => setUseTargetSize(true)}
+                    className="text-indigo-600"
+                  />
+                  <span>By Target Size</span>
+                </label>
               </div>
-              <Slider value={[quality * 100]} min={1} max={100} step={1} onValueChange={(v) => setQuality(v[0] / 100)} />
+
+              {!useTargetSize ? (
+                <>
+                  <div className="flex justify-between items-center">
+                    <Label className="font-bold">Compression Quality</Label>
+                    <span className="text-indigo-600 font-bold">{Math.round(quality * 100)}%</span>
+                  </div>
+                  <Slider value={[quality * 100]} min={1} max={100} step={1} onValueChange={(v) => setQuality(v[0] / 100)} />
+                </>
+              ) : (
+                <div className="space-y-2">
+                  <Label className="font-bold">Target Size (KB)</Label>
+                  <Input 
+                    type="number" 
+                    value={targetSize} 
+                    onChange={(e) => setTargetSize(Number(e.target.value))}
+                    min={1}
+                  />
+                  <p className="text-xs text-slate-500">The tool will try to compress the image close to this size.</p>
+                </div>
+              )}
+
               <div className="flex gap-4 pt-4">
                 <Button onClick={compressImage} className="flex-1 bg-indigo-600 hover:bg-indigo-700" disabled={compressing}>
-                  {compressing ? "Compressing..." : "Compress Image"}
+                  {compressing ? <><RefreshCw className="w-4 h-4 mr-2 animate-spin" /> Compressing...</> : "Compress Image"}
                 </Button>
                 <Button variant="outline" onClick={() => setImage(null)} className="text-slate-500">
                   Change Image

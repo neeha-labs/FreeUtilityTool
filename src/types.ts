@@ -10,6 +10,18 @@ export interface Tool {
   faqs?: { question: string; answer: string }[];
   howToUse?: string[];
   howToUseIntro?: string;
+  extendedSeo?: {
+    title: string;
+    metaDescription?: string;
+    intro: string;
+    useCases: string[];
+    longTailSections: {
+      title: string;
+      content: string;
+    }[];
+    benefits: string[];
+    faqs: { question: string; answer: string }[];
+  };
 }
 
 export interface SEOContent {

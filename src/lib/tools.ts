@@ -137,8 +137,8 @@ export const ALL_TOOLS: Tool[] = [
     shortDesc: "Compress images without losing quality. Support PNG, JPG, WEBP.",
     icon: "Image",
     region: "GLOBAL",
-    relatedTools: ["base64-encoder-decoder", "json-formatter"],
-    seoKeywords: ["image compressor", "compress image online", "reduce image size", "photo compressor"],
+    relatedTools: ["image-resizer", "image-crop", "jpg-to-png-converter", "png-to-jpg-converter"],
+    seoKeywords: ["image compressor", "compress image online", "reduce image size", "photo compressor", "compress image to 50kb", "reduce image size online", "compress jpg online", "shrink image file size"],
     faqs: [
       { question: "Will I lose image quality?", answer: "Our tool uses smart compression algorithms to significantly reduce file size while maintaining high visual quality." },
       { question: "Which image formats are supported?", answer: "We support JPEG, PNG, and WebP formats for compression." },
@@ -149,7 +149,48 @@ export const ALL_TOOLS: Tool[] = [
       "Adjust the quality slider to balance between file size and image clarity.",
       "Preview the compressed image size before downloading.",
       "Click 'Download' to save the optimized image to your device."
-    ]
+    ],
+    extendedSeo: {
+      title: "Compress Image Online (Reduce Size Without Losing Quality) Free Tool",
+      metaDescription: "Compress images online for free. Reduce image size without losing quality. Supports JPG, PNG & WebP. No signup. Browser-based & secure.",
+      intro: "Our free online image compressor is the ultimate solution for anyone looking to reduce image size without losing quality. Whether you are a professional photographer, a web developer, or just someone trying to upload a profile picture, our tool provides a seamless experience. We support popular formats like JPG, PNG, and WebP, ensuring that you can compress image online regardless of the source. The process is entirely browser-based, meaning your files are never uploaded to a server, providing maximum privacy and security. You can shrink image file size in seconds, making it perfect for optimizing websites, saving storage space on your device, or meeting strict file size requirements for online applications. With our intuitive interface, you can achieve the perfect balance between file size and visual clarity, making it the best image compressor free of charge.",
+      useCases: [
+        "Web Optimization: Reduce image size online to improve website loading speeds and SEO rankings.",
+        "Online Applications: Compress image to 50kb for government portals, job applications, or school registrations.",
+        "Social Media: Reduce image size for WhatsApp, Instagram, and Facebook to share high-quality photos faster.",
+        "Email Attachments: Shrink image file size to stay within email provider limits and ensure quick delivery.",
+        "Storage Management: Compress your entire photo library to save gigabytes of space on your phone or computer."
+      ],
+      longTailSections: [
+        {
+          title: "How to Compress Image to 50KB Online",
+          content: "Many official portals require photos to be under 50KB. To achieve this, simply upload your image to our tool, select the 'By Target Size' option, and enter 50. Our advanced algorithm will iteratively adjust the quality to get as close to 50KB as possible without making the image look pixelated. It's the easiest way to compress jpg online to a specific size."
+        },
+        {
+          title: "How to Reduce Image Size for WhatsApp and Email",
+          content: "WhatsApp and email often compress images automatically, sometimes ruining the quality. By using our tool first, you can reduce image size for WhatsApp manually, ensuring the dimensions and clarity are preserved while the file size is minimized. This allows for faster transmission without the 'blurry' look often associated with auto-compression."
+        },
+        {
+          title: "Compress JPG Without Losing Quality",
+          content: "Our tool uses smart lossy compression techniques to compress jpg online. By removing metadata and optimizing the color profile, we can significantly reduce the file size while keeping the visual quality virtually identical to the original. This is perfect for high-resolution photography where every pixel counts."
+        }
+      ],
+      benefits: [
+        "100% Free Forever",
+        "Privacy Guaranteed (Local Processing)",
+        "Multi-Format Support (JPG, PNG, WebP)",
+        "No Watermarks",
+        "Fast & Reliable Performance",
+        "Mobile Optimized"
+      ],
+      faqs: [
+        { question: "Is it safe to compress my private photos here?", answer: "Yes, absolutely. Our image compressor free tool works entirely in your browser. Your photos never leave your computer." },
+        { question: "Can I compress PNG images with transparency?", answer: "Yes, our tool supports PNG compression while maintaining the alpha channel (transparency)." },
+        { question: "What is the maximum file size I can upload?", answer: "You can upload images up to 20MB, though larger files may take a few seconds longer to process depending on your device's RAM." },
+        { question: "Does this tool work on mobile devices?", answer: "Yes, it is fully responsive and works perfectly on Android and iOS browsers." },
+        { question: "Will my image dimensions change?", answer: "No, the compressor only reduces the file size by optimizing data. If you need to change dimensions, use our Image Resizer tool." }
+      ]
+    }
   },
   {
     slug: "base64-encoder-decoder",
@@ -1496,4 +1537,158 @@ export const ALL_TOOLS: Tool[] = [
     ],
     howToUseIntro: "Convert text characters into their octal (base-8) representation instantly with our accurate online tool."
   },
+  {
+    slug: "jpg-to-png-converter",
+    title: "JPG to PNG Converter",
+    category: "Image Tools",
+    shortDesc: "Convert your JPG/JPEG images to PNG format with transparency support.",
+    icon: "Image",
+    region: "GLOBAL",
+    relatedTools: ["png-to-jpg-converter", "image-compressor"],
+    seoKeywords: ["jpg to png", "jpeg to png", "convert jpg to png", "image format converter"],
+    faqs: [
+      { question: "Does converting JPG to PNG improve quality?", answer: "No, converting a lossy format (JPG) to a lossless format (PNG) does not restore lost quality, but it prevents further quality loss." },
+      { question: "Can I convert multiple images at once?", answer: "Currently, our tool processes one image at a time for optimal performance in your browser." },
+      { question: "Is my image uploaded to a server?", answer: "No, all conversions happen locally in your web browser. Your images are completely private." }
+    ],
+    howToUse: [
+      "Click the upload area or drag and drop your JPG image.",
+      "The tool will automatically convert the image to PNG format.",
+      "A preview of the converted image will appear.",
+      "Click 'Download' to save the PNG file to your device."
+    ],
+    howToUseIntro: "Easily convert your JPG images to PNG format right in your browser. Fast, free, and secure."
+  },
+  {
+    slug: "png-to-jpg-converter",
+    title: "PNG to JPG Converter",
+    category: "Image Tools",
+    shortDesc: "Convert PNG images to JPG format to reduce file size.",
+    icon: "Image",
+    region: "GLOBAL",
+    relatedTools: ["jpg-to-png-converter", "image-compressor"],
+    seoKeywords: ["png to jpg", "png to jpeg", "convert png to jpg", "reduce image size"],
+    faqs: [
+      { question: "Why convert PNG to JPG?", answer: "JPG files are generally much smaller than PNG files, making them better for web use where transparency is not needed." },
+      { question: "What happens to transparent backgrounds?", answer: "JPG does not support transparency. Any transparent areas in your PNG will be filled with a solid color (usually white) during conversion." },
+      { question: "Is my image uploaded to a server?", answer: "No, all conversions happen locally in your web browser. Your images are completely private." }
+    ],
+    howToUse: [
+      "Click the upload area or drag and drop your PNG image.",
+      "The tool will automatically convert the image to JPG format.",
+      "A preview of the converted image will appear.",
+      "Click 'Download' to save the JPG file to your device."
+    ],
+    howToUseIntro: "Quickly convert PNG images to JPG format to save space and improve loading times."
+  },
+  {
+    slug: "image-resizer",
+    title: "Image Resizer Tool",
+    category: "Image Tools",
+    shortDesc: "Resize your images to specific dimensions easily.",
+    icon: "Maximize",
+    region: "GLOBAL",
+    relatedTools: ["image-crop", "image-compressor"],
+    seoKeywords: ["image resizer", "resize image online", "change image dimensions", "photo resizer"],
+    faqs: [
+      { question: "Does resizing affect image quality?", answer: "Making an image smaller usually retains quality, but enlarging an image can make it blurry or pixelated." },
+      { question: "Can I maintain the aspect ratio?", answer: "Yes, our tool has a lock icon to maintain the original aspect ratio, preventing distortion." },
+      { question: "What formats are supported?", answer: "You can resize JPG, PNG, and WebP images." }
+    ],
+    howToUse: [
+      "Upload the image you want to resize.",
+      "Enter the desired width or height in pixels.",
+      "Toggle the lock icon to maintain or unlock the aspect ratio.",
+      "Click 'Resize Image' and then download the result."
+    ],
+    howToUseIntro: "Change the dimensions of your photos quickly and easily with our free Image Resizer."
+  },
+  {
+    slug: "compress-image-to-50kb",
+    title: "Compress Image to 50KB",
+    category: "Image Tools",
+    shortDesc: "Compress your images to exactly 50KB or less for web uploads.",
+    icon: "Minimize",
+    region: "GLOBAL",
+    relatedTools: ["compress-image-to-100kb", "image-compressor"],
+    seoKeywords: ["compress image to 50kb", "reduce image size to 50kb", "50kb photo converter", "image compressor"],
+    faqs: [
+      { question: "Will the image quality be ruined?", answer: "The tool tries to find the best balance between quality and file size, but compressing to a very small size like 50KB will result in some quality loss." },
+      { question: "Why do I need a 50KB image?", answer: "Many online portals, government forms, and job applications have strict file size limits (often 50KB or 100KB) for photo uploads." },
+      { question: "Is this tool free?", answer: "Yes, it is completely free to use and processes images locally in your browser." }
+    ],
+    howToUse: [
+      "Upload your image (JPG, PNG, or WebP).",
+      "The tool is pre-configured to target a 50KB file size.",
+      "Click 'Compress Image'.",
+      "Download the compressed image once it's ready."
+    ],
+    howToUseIntro: "Need to upload a photo but the file size limit is 50KB? Use our specialized tool to compress your image to the exact size you need."
+  },
+  {
+    slug: "compress-image-to-100kb",
+    title: "Compress Image to 100KB",
+    category: "Image Tools",
+    shortDesc: "Compress your images to 100KB or less easily.",
+    icon: "Minimize",
+    region: "GLOBAL",
+    relatedTools: ["compress-image-to-50kb", "image-compressor"],
+    seoKeywords: ["compress image to 100kb", "reduce image size to 100kb", "100kb photo converter", "image compressor"],
+    faqs: [
+      { question: "How does the tool reach exactly 100KB?", answer: "It uses an iterative compression algorithm to adjust the quality until the target size is reached." },
+      { question: "Can I compress PNGs to 100KB?", answer: "Yes, but PNGs are harder to compress than JPGs. The tool might convert it to a more efficient format internally to reach the target size." },
+      { question: "Is my data secure?", answer: "Yes, all compression happens in your browser. We do not store your images." }
+    ],
+    howToUse: [
+      "Upload your image.",
+      "The tool is set to target 100KB.",
+      "Click 'Compress Image' and wait for the process to finish.",
+      "Download your optimized image."
+    ],
+    howToUseIntro: "Quickly reduce your image file size to under 100KB for web forms and applications."
+  },
+  {
+    slug: "image-crop",
+    title: "Image Crop Tool",
+    category: "Image Tools",
+    shortDesc: "Crop your images to remove unwanted areas or change aspect ratios.",
+    icon: "Crop",
+    region: "GLOBAL",
+    relatedTools: ["image-resizer", "image-compressor"],
+    seoKeywords: ["image crop", "crop photo online", "cut image", "aspect ratio cropper"],
+    faqs: [
+      { question: "Can I crop to a specific aspect ratio?", answer: "Yes, you can toggle predefined aspect ratios like 16:9 or crop freely." },
+      { question: "Does cropping reduce file size?", answer: "Yes, by removing parts of the image, the overall file size will decrease." },
+      { question: "Is this tool mobile-friendly?", answer: "Yes, you can use touch gestures to adjust the crop area on mobile devices." }
+    ],
+    howToUse: [
+      "Upload the image you want to crop.",
+      "Drag the handles on the image to select the area you want to keep.",
+      "Optionally, use the 'Toggle Aspect' button to lock the crop to a 16:9 ratio.",
+      "Click 'Crop Image' and download the result."
+    ],
+    howToUseIntro: "Focus on what matters in your photos. Use our Image Crop tool to trim edges and adjust framing easily."
+  },
+  {
+    slug: "image-to-base64",
+    title: "Image to Base64 Converter",
+    category: "Image Tools",
+    shortDesc: "Convert images to Base64 strings for embedding in HTML/CSS.",
+    icon: "FileCode",
+    region: "GLOBAL",
+    relatedTools: ["base64-encoder-decoder", "image-compressor"],
+    seoKeywords: ["image to base64", "base64 image encoder", "convert image to string", "embed image css"],
+    faqs: [
+      { question: "Why convert an image to Base64?", answer: "Base64 allows you to embed images directly into HTML or CSS files, reducing the number of HTTP requests needed to load a webpage." },
+      { question: "Does Base64 increase file size?", answer: "Yes, Base64 encoding typically increases the data size by about 33% compared to the original binary image." },
+      { question: "What image formats are supported?", answer: "You can convert JPG, PNG, GIF, WebP, and SVG images to Base64." }
+    ],
+    howToUse: [
+      "Upload your image file.",
+      "The tool will instantly generate the Base64 string.",
+      "You can copy the raw string, or copy it formatted for HTML (<img> tag) or CSS (background-image).",
+      "Use the copied code directly in your project."
+    ],
+    howToUseIntro: "Embed images directly into your code with our fast Image to Base64 converter."
+  }
 ];
